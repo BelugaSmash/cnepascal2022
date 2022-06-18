@@ -32,7 +32,7 @@ while 1:
     if pipex <= 0 - pipew:
         pipex = 1280 + pipew
         pipey = random.randint(720/2, 720/2 + 300)
-        score += 10
+        score += 1
     
     pygame.draw.rect(screen, (0, 255, 0), [pipex - pipew / 2, pipey - 720 / 2 - 350, pipew, pipeh])
     pygame.draw.rect(screen, (0, 255, 0), [pipex - pipew / 2, pipey + 50, pipew, pipeh])
