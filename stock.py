@@ -9,6 +9,8 @@ stock_num_save = 0
 global flag_first
 flag_first=0
 w, h = 128, 720/2
+RED   = (255,   0,   0) #그래프 색 설정
+BLUE  = (  0,   0, 255)
 while 1:
     if flag_first==1:
         break
