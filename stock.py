@@ -10,7 +10,7 @@ global flag_first
 flag_first=0
 while 1:
     if flag_first==1:
-        continue
+        break
     else:
         for i in range(0, 10):
             stock_num_save = random.randint(-100, 100)
@@ -20,6 +20,7 @@ while 1:
                 flag_first=1
                 break
         print(stock_num)
+while 1:
     screen = pygame.display.set_mode((1280,720))
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
