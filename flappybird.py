@@ -26,7 +26,7 @@ while 1:
                 gy = 10.5
     
     screen.fill((255,255,255))
-    pipex -= 5
+    pipex -= 5 + score / 5
     gy -= 0.5
     y -= gy
     if pipex <= 0 - pipew:
