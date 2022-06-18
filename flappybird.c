@@ -1,48 +1,6 @@
-#include <Elegoo_GFX.h>
-#include <Elegoo_TFTLCD.h>
-#include <TouchScreen.h>
-#include <time.h>
-
-#if defined(__SAM3X8E__)
-    #undef __FlashStringHelper::F(string_literal)
-    #define F(string_literal) string_literal
-#endif
-
-#define YP A3
-#define XM A2
-#define YM 9
-#define XP 8
-#define TS_MINX 120
-#define TS_MAXX 900
-
-#define TS_MINY 70
-#define TS_MAXY 920
-
-TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
-
-#define LCD_CS A3
-#define LCD_CD A2
-#define LCD_WR A1
-#define LCD_RD A0
-#define LCD_RESET A4
-
-#define BLACK   0x0000
-#define BLUE    0x001F
-#define RED     0xF800
-#define GREEN   0x07E0
-#define CYAN    0x07FF
-#define MAGENTA 0xF81F
-#define YELLOW  0xFFE0
-#define WHITE   0xFFFF
-
-#define MINPRESSURE 10
-#define MAXPRESSURE 1000
-
 #define RECTSIZE 10
 
-Elegoo_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
-double y, prevy;
-double gravity;
+double g;
 bool pressed, down, up, waiting;
 int px, py;
 int score;
@@ -104,7 +62,7 @@ void setup(void) {
 
   Init();
 
-  pinMode(13, OUTPUT);
+  pinMode(13, OUTPUT);z
   pinMode(22, INPUT);
 }
 
