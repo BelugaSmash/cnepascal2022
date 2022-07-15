@@ -3,6 +3,7 @@
 import random
 
 #부족하지만 등락을 정하는 코드
+#주사위처럼 6까지의 난수를 뽑고, 1 ~ 3이라면 상승을, 4 ~ 6이라면 하락을
 updown = list(range(10))
 for i in range(1,11):
     num = random.randint(1,6)
