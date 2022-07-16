@@ -6,6 +6,9 @@ import random
 #주사위처럼 6까지의 난수를 뽑고, 1 ~ 3이라면 상승을, 4 ~ 6이라면 하락을
 updown = list(range(10))
 for i in range(1,11):
+    #updown[i] = random.randint(1, 2)
+    #아래의 코드는 위 코드 한줄로 정리 ㄱㄴ
+    
     num = random.randint(1,6)
     if num >= 1 and num < 4:
         updown[i] = 1
