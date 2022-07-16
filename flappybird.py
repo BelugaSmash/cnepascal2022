@@ -14,7 +14,7 @@ pipex, pipey, pipew, pipeh = [1280,  1280 + 1280 / 3, 1280 + 1280 * 2 / 3],\
 score = 0
 font1 = pygame.font.SysFont(None,30)
 game_over = False
-change_score = 20
+change_score = 5
 
 #게임 다시시작할 때 변수들 초기화
 def game_restart():
@@ -55,7 +55,7 @@ while 1:
         screen.fill((0,0,0))
     else:
         screen.fill((255,255,255))
-    
+
     if not game_over:
         #중력 설정
         gy -= 0.5
@@ -71,7 +71,7 @@ while 1:
     for i in range(3):
         if not game_over:
             #배관 왼쪽으로 이동
-            pipex[i] -= 10
+            pipex[i] -= 5 + 5 * (score >= change_score)
         
         #배관이 왼쪽 화면 밖으로 나갔다면 점수 + 1 하고 화면 오른쪽으로 보내기
         if pipex[i] <= 0 - pipew:
@@ -102,6 +102,7 @@ while 1:
     #게임 오버가 True라면 화면 가운데에 Game Over!표시 하고 게임을 정지 한다.
     if game_over:
         font2 = pygame.font.SysFont(None,100)
+        txt = font2.render('Game Over!',True, score_color)
         txt = font2.render('Game Over!',True, score_color)
         txt_rect = txt.get_rect(center = (1280 / 2, 720 / 2))
         screen.blit(txt, txt_rect)
