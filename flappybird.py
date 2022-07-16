@@ -18,7 +18,7 @@ font1 = pygame.font.SysFont(None,30)
 game_over = False
 first_game_over = True
 change_score = 5
-player_img = pygame.image.load(os.path.join(cpath, "pingu.png"))
+player_img = pygame.image.load(os.path.join(cpath, "pingu2.png"))
 game_over_img = pygame.image.load(os.path.join(cpath, "gameover.png"))
 
 #게임 다시시작할 때 변수들 초기화
@@ -76,6 +76,7 @@ while 1:
     player_color = (0, 0, 255)
     if score >= change_score:
         player_color = (255, 0, 0)
+
     
     pygame.draw.rect(screen, (0, 255, 0), [x - w / 2, y - h / 2, w, h])
     pygame.draw.rect(screen, back_color, [x - w / 2 + 5, y - h / 2 + 5, w - 10, h - 10])
