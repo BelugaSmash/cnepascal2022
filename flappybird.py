@@ -9,7 +9,7 @@ screen = pygame.display.set_mode((1280, 720))
 #변수들 초기화
 gy = 0
 x, y, w, h = 100, 720 / 2, 50, 50
-pipex, pipey, pipew, pipeh = [1280,  1280 + 1280 / 3, 1280 + 1280 * 2 / 3],\
+pipex, pipey, pipew, pipeh = [1280,  1280 + 1280 // 3, 1280 + 1280 * 2 // 3],\
      [random.randint(720/2, 720/2 + 100),random.randint(720/2, 720/2 + 100),random.randint(720/2, 720/2 + 100)], 100, 550
 score = 0
 font1 = pygame.font.SysFont(None,30)
@@ -21,7 +21,7 @@ def game_restart():
     global gy, x, y, w, h, pipex, pipey, pipew, pipeh, score, game_over
     gy = 0
     x, y, w, h = 100, 720 / 2, 50, 50
-    pipex, pipey, pipew, pipeh = [1280,  1280 + 1280 / 3, 1280 + 1280 * 2 / 3],\
+    pipex, pipey, pipew, pipeh = [1280,  1280 + 1280 // 3, 1280 + 1280 * 2 // 3],\
         [random.randint(720/2, 720/2 + 100),random.randint(720/2, 720/2 + 100),random.randint(720/2, 720/2 + 100)], 100, 550
     score = 0
     game_over = False
@@ -67,6 +67,7 @@ while 1:
     if score >= change_score:
         player_color = (255, 0, 0)
     pygame.draw.rect(screen, player_color, [x - w / 2, y - h / 2, w, h])
+    pygame.draw.rect(screen, (255, 51, 153), [x-5, y-5, 10, 10])
     #배관 관련 코드
     for i in range(3):
         if not game_over:
@@ -86,6 +87,9 @@ while 1:
         
         pygame.draw.rect(screen, pipe_color, [pipex[i] - pipew / 2, pipey[i] - 720 / 2 - 350, pipew, pipeh])
         pygame.draw.rect(screen, pipe_color, [pipex[i] - pipew / 2, pipey[i] + 50, pipew, pipeh])
+        postxt = font1.render('(' + str(pipex[i]) + ',' + str(pipey[i])+')',True,(255, 51, 153))
+        screen.blit(postxt, (pipex[i] - 40, pipey[i] - 30))
+        pygame.draw.rect(screen, (255, 51, 153), [pipex[i]-5, pipey[i]-5, 10, 10])
         #충돌했다면 게임 오버를 True로 설정
         if collide(x - w / 2, y - h / 2, w, h, pipex[i] - pipew / 2, pipey[i] - 720 / 2 - 350, pipew, pipeh) or\
             collide(x - w / 2, y - h / 2, w, h, pipex[i] - pipew / 2, pipey[i] + 50, pipew, pipeh) or\
