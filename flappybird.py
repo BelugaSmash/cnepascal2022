@@ -67,6 +67,8 @@ while 1:
     if score >= change_score:
         player_color = (255, 0, 0)
     pygame.draw.rect(screen, player_color, [x - w / 2, y - h / 2, w, h])
+    postxt = font1.render('(' + str(x) + ',' + str(y)+')',True,(255, 51, 153))
+    screen.blit(postxt, (x - 50, y - 50))
     pygame.draw.rect(screen, (255, 51, 153), [x-5, y-5, 10, 10])
     #배관 관련 코드
     for i in range(3):
