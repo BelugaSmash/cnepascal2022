@@ -17,6 +17,7 @@ game_over = False
 
 #게임 다시시작할 때 변수들 초기화
 def game_restart():
+    global gy, x, y, w, h, pipex, pipey, pipew, pipeh, score, game_over
     gy = 0
     x, y, w, h = 100, 720 / 2, 50, 50
     pipex, pipey, pipew, pipeh = [1280,  1280 + 1280 / 3, 1280 + 1280 * 2 / 3],\
