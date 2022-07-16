@@ -26,11 +26,7 @@ pipe1_img = pygame.image.load(os.path.join(cpath, "pipe1.png"))
 
 #게임 다시시작할 때 변수들 초기화
 def game_restart():
-<<<<<<< HEAD
     global gy, x, y, w, h, pipex, pipey, pipew, pipeh, score, game_over, first_game_over
-=======
-    global gy, x, y, w, h, pipex, pipey, pipew, pipeh, score, game_over,first_game_over
->>>>>>> 5a4bb739201568f1beafdd6451ff56ce0f756e0a
     gy = 0
     x, y, w, h = 100, 720 / 2, 50, 50
     pipex, pipey, pipew, pipeh = [1280,  1280 + 1280 // 3, 1280 + 1280 * 2 // 3],\
@@ -38,11 +34,9 @@ def game_restart():
     score = 0
     game_over = False
     first_game_over = True
-<<<<<<< HEAD
-=======
+
     mySound.stop()
     mySound2.stop()
->>>>>>> 5a4bb739201568f1beafdd6451ff56ce0f756e0a
 
 
 #좌표, 가로 크기, 세로 크기가 주어졌을 때 충돌 했는지 체크
