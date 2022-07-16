@@ -15,6 +15,8 @@ score = 0
 font1 = pygame.font.SysFont(None,30)
 game_over = False
 change_score = 5
+player_img = pygame.image.load("C:/Users/sudam/Desktop/정보 영재/프로젝트/cnpascal-3/pingu.png")
+game_over_img = pygame.image.load("C:/Users/sudam/Desktop/정보 영재/프로젝트/cnpascal-3/gameover.png")
 
 #게임 다시시작할 때 변수들 초기화
 def game_restart():
@@ -51,10 +53,10 @@ while 1:
                     game_restart()
     
     #배경색을 흰색으로 채우기
+    back_color = (255,255,255)
     if score >= change_score:
-        screen.fill((0,0,0))
-    else:
-        screen.fill((255,255,255))
+        back_color = (0,0,0)
+    screen.fill(back_color)
 
     if not game_over:
         #중력 설정
@@ -66,7 +68,10 @@ while 1:
     player_color = (0, 0, 255)
     if score >= change_score:
         player_color = (255, 0, 0)
-    pygame.draw.rect(screen, player_color, [x - w / 2, y - h / 2, w, h])
+    
+    pygame.draw.rect(screen, (0, 255, 0), [x - w / 2, y - h / 2, w, h])
+    pygame.draw.rect(screen, back_color, [x - w / 2 + 5, y - h / 2 + 5, w - 10, h - 10])
+    screen.blit(player_img, (x - 25, y - 25))
     postxt = font1.render('(' + str(x) + ',' + str(y)+')',True,(255, 51, 153))
     screen.blit(postxt, (x - 50, y - 50))
     pygame.draw.rect(screen, (255, 51, 153), [x-5, y-5, 10, 10])
@@ -107,12 +112,7 @@ while 1:
     
     #게임 오버가 True라면 화면 가운데에 Game Over!표시 하고 게임을 정지 한다.
     if game_over:
-        font2 = pygame.font.SysFont(None,100)
-        txt = font2.render('Game Over!',True, score_color)
-        txt = font2.render('Game Over!',True, score_color)
-        txt_rect = txt.get_rect(center = (1280 / 2, 720 / 2))
-        screen.blit(txt, txt_rect)
-        pygame.display.update()
+        screen.blit(game_over_img, (0, 0))
 
     pygame.display.update()
 
