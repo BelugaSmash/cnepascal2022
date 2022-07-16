@@ -49,6 +49,8 @@ while 1:
             if event.key == pygame.K_SPACE:
                 if not game_over:
                     gy = 10.5
+                    mySound = pygame.mixer.Sound( "nootnoot.wav" )
+                    mySound.play()
                 else:
                     game_restart()
     
