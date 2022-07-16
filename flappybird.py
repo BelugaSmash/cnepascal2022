@@ -46,7 +46,7 @@ while 1:
     #배관 관련 코드
     for i in range(3):
         #배관 왼쪽으로 이동
-        pipex[i] -= 0
+        pipex[i] -= 5
         #배관이 왼쪽 화면 밖으로 나갔다면 점수 + 1 하고 화면 오른쪽으로 보내기
         if pipex[i] <= 0 - pipew:
             pipex[i] = 1280 + pipew
