@@ -87,7 +87,7 @@ while 1:
     #게임 오버가 True라면 화면 가운데에 Game Over!표시 하고 게임을 정지 한다.
     if game_over:
         font2 = pygame.font.SysFont(None,100)
-        txt = font2.render('Game Over!',True, (0, 0, 0))
+        txt = font2.render('Game Over!',True, (255, 255, 255))
         txt_rect = txt.get_rect(center = (1280 / 2, 720 / 2))
         screen.blit(txt, txt_rect)
         pygame.display.update()
