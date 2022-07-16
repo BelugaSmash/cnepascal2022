@@ -41,10 +41,11 @@ while 1:
     gy -= 0.5
     #y값을 중력값에 따라 떨어지게
     y -= gy
-    #배관 관련 코드
+    #플레이어 화면에 그리기
     pygame.draw.rect(screen, (0, 0, 255), [x - w / 2, y - h / 2, w, h])
+    #배관 관련 코드
     for i in range(3):
-        #배관 왼쪽으로
+        #배관 왼쪽으로 이동
         pipex[i] -= 5 + score / 5
         #배관이 왼쪽 화면 밖으로 나갔다면 점수 + 1 하고 화면 오른쪽으로 보내기
         if pipex[i] <= 0 - pipew:
