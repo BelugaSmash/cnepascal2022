@@ -1,3 +1,4 @@
+from distutils.command.build_scripts import first_line_re
 import pygame, sys
 import os
 import random
@@ -16,19 +17,23 @@ pipex, pipey, pipew, pipeh = [1280,  1280 + 1280 // 3, 1280 + 1280 * 2 // 3],\
 score = 0
 font1 = pygame.font.SysFont(None,30)
 game_over = False
+first_game_over = True
 change_score = 5
 player_img = pygame.image.load(os.path.join(cpath, "pingu.png"))
 game_over_img = pygame.image.load(os.path.join(cpath, "gameover.png"))
+pipe_img = pygame.image.load(os.path.join(cpath, "pipe.png"))
+pipe1_img = pygame.image.load(os.path.join(cpath, "pipe1.png"))
 
 #게임 다시시작할 때 변수들 초기화
 def game_restart():
-    global gy, x, y, w, h, pipex, pipey, pipew, pipeh, score, game_over
+    global gy, x, y, w, h, pipex, pipey, pipew, pipeh, score, game_over, first_game_over
     gy = 0
     x, y, w, h = 100, 720 / 2, 50, 50
     pipex, pipey, pipew, pipeh = [1280,  1280 + 1280 // 3, 1280 + 1280 * 2 // 3],\
         [random.randint(720/2, 720/2 + 100),random.randint(720/2, 720/2 + 100),random.randint(720/2, 720/2 + 100)], 100, 550
     score = 0
     game_over = False
+    first_game_over = True
 
 
 #좌표, 가로 크기, 세로 크기가 주어졌을 때 충돌 했는지 체크
@@ -51,7 +56,7 @@ while 1:
             if event.key == pygame.K_SPACE:
                 if not game_over:
                     gy = 10.5
-                    mySound = pygame.mixer.Sound("jump.ogg")
+                    mySound = pygame.mixer.Sound("juuuuuump.wav")
                     mySound.play()
                 else:
                     game_restart()
@@ -97,7 +102,11 @@ while 1:
             pipe_color = (100, 30, 30)
         
         pygame.draw.rect(screen, pipe_color, [pipex[i] - pipew / 2, pipey[i] - 720 / 2 - 350, pipew, pipeh])
+        pygame.draw.rect(screen, back_color, [pipex[i] - pipew / 2 + 5, pipey[i] - 720 / 2 - 345, pipew - 10, pipeh - 10])
         pygame.draw.rect(screen, pipe_color, [pipex[i] - pipew / 2, pipey[i] + 50, pipew, pipeh])
+        pygame.draw.rect(screen, back_color, [pipex[i] - pipew / 2 + 5, pipey[i] + 55, pipew - 10, pipeh - 10])
+        screen.blit(pipe_img, (pipex[i] - pipew / 2, pipey[i] - 720 / 2 - 350))
+        screen.blit(pipe1_img, (pipex[i] - pipew / 2, pipey[i] + 50))
         postxt = font1.render('(' + str(pipex[i]) + ',' + str(pipey[i])+')',True,(255, 51, 153))
         screen.blit(postxt, (pipex[i] - 40, pipey[i] - 30))
         pygame.draw.rect(screen, (255, 51, 153), [pipex[i]-5, pipey[i]-5, 10, 10])
@@ -117,6 +126,10 @@ while 1:
     #게임 오버가 True라면 화면 가운데에 Game Over!표시 하고 게임을 정지 한다.
     if game_over:
         screen.blit(game_over_img, (0, 0))
+        if first_game_over:
+            mySound2 = pygame.mixer.Sound("121Nootnoot.wav")
+            mySound2.play()
+            first_game_over = False
 
     pygame.display.update()
 
