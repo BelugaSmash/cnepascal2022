@@ -31,6 +31,8 @@ def game_restart():
     score = 0
     game_over = False
     first_game_over = True
+    mySound.stop()
+    mySound2.stop()
 
 
 #좌표, 가로 크기, 세로 크기가 주어졌을 때 충돌 했는지 체크
