@@ -15,6 +15,16 @@ score = 0
 font1 = pygame.font.SysFont(None,30)
 game_over = False
 
+#게임 다시시작할 때 변수들 초기화
+def game_restart():
+    gy = 0
+    x, y, w, h = 100, 720 / 2, 50, 50
+    pipex, pipey, pipew, pipeh = [1280,  1280 + 1280 / 3, 1280 + 1280 * 2 / 3],\
+        [random.randint(720/2, 720/2 + 100),random.randint(720/2, 720/2 + 100),random.randint(720/2, 720/2 + 100)], 100, 550
+    score = 0
+    game_over = False
+
+
 #좌표, 가로 크기, 세로 크기가 주어졌을 때 충돌 했는지 체크
 def collide(x, y, w, h, x_, y_, w_, h_):
     return x < x_ + w_ and y < y_ + h_ and x + w > x_ and y + h > y_
@@ -25,7 +35,7 @@ clock = pygame.time.Clock()
 while 1:
     #FPS를 60으로 설정
     clock.tick(60)
-    #파이게임 기본 코드
+    #파이게임 기본 코드 
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
             sys.exit()
@@ -33,20 +43,27 @@ while 1:
         if event.type==pygame.KEYDOWN:
             #눌린 키가 스페이스라면 점프
             if event.key == pygame.K_SPACE:
-                gy = 10.5
+                if not game_over:
+                    gy = 10.5
+                else:
+                    game_restart()
     
     #배경색을 흰색으로 채우기
     screen.fill((255,255,255))
-    #중력 설정
-    gy -= 5
-    #y값을 중력값에 따라 떨어지게
-    y -= gy
+    if not game_over:
+        #중력 설정
+        gy -= 0.5
+        #y값을 중력값에 따라 떨어지게
+        y -= gy
+    
     #플레이어 화면에 그리기
-    pygame.draw.rect(screen, (255, 255, 255), [x - w / 2, y - h / 2, w, h])
+    pygame.draw.rect(screen, (0, 0, 255), [x - w / 2, y - h / 2, w, h])
     #배관 관련 코드
     for i in range(3):
-        #배관 왼쪽으로 이동
-        pipex[i] -= 1
+        if not game_over:
+            #배관 왼쪽으로 이동
+            pipex[i] -= 5
+        
         #배관이 왼쪽 화면 밖으로 나갔다면 점수 + 1 하고 화면 오른쪽으로 보내기
         if pipex[i] <= 0 - pipew:
             pipex[i] = 1280 + pipew
@@ -54,8 +71,8 @@ while 1:
             score += 1
 
         # 배관 그리기
-        pygame.draw.rect(screen, (255, 255, 255), [pipex[i] - pipew / 2, pipey[i] - 720 / 2 - 350, pipew, pipeh])
-        pygame.draw.rect(screen, (255, 255, 255), [pipex[i] - pipew / 2, pipey[i] + 50, pipew, pipeh])
+        pygame.draw.rect(screen, (0, 255, 0), [pipex[i] - pipew / 2, pipey[i] - 720 / 2 - 350, pipew, pipeh])
+        pygame.draw.rect(screen, (0, 255, 0), [pipex[i] - pipew / 2, pipey[i] + 50, pipew, pipeh])
         #충돌했다면 게임 오버를 True로 설정
         if collide(x - w / 2, y - h / 2, w, h, pipex[i] - pipew / 2, pipey[i] - 720 / 2 - 350, pipew, pipeh) or\
             collide(x - w / 2, y - h / 2, w, h, pipex[i] - pipew / 2, pipey[i] + 50, pipew, pipeh) or\
@@ -73,7 +90,6 @@ while 1:
         txt_rect = txt.get_rect(center = (1280 / 2, 720 / 2))
         screen.blit(txt, txt_rect)
         pygame.display.update()
-        break
 
     pygame.display.update()
 
