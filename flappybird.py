@@ -50,7 +50,7 @@ while 1:
                     game_restart()
     
     #배경색을 흰색으로 채우기
-    screen.fill((255,255,255))
+    screen.fill((0,0,0))
     if not game_over:
         #중력 설정
         gy -= 0.5
