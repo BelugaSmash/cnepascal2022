@@ -40,7 +40,7 @@ while 1:
     #중력 설정
     gy -= 5
     #y값을 중력값에 따라 떨어지게
-    y -= gy
+    x -= gy
     #플레이어 화면에 그리기
     pygame.draw.rect(screen, (255, 255, 255), [x - w / 2, y - h / 2, w, h])
     #배관 관련 코드
