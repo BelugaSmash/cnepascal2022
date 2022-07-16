@@ -42,7 +42,7 @@ while 1:
     #y값을 중력값에 따라 떨어지게
     y -= gy
     #플레이어 화면에 그리기
-    pygame.draw.rect(screen, (0, 0, 0), [x - w / 2, y - h / 2, w, h])
+    pygame.draw.rect(screen, (255, 255, 255), [x - w / 2, y - h / 2, w, h])
     #배관 관련 코드
     for i in range(3):
         #배관 왼쪽으로 이동
@@ -54,8 +54,8 @@ while 1:
             score += 1
 
         # 배관 그리기
-        pygame.draw.rect(screen, (0, 0, 0), [pipex[i] - pipew / 2, pipey[i] - 720 / 2 - 350, pipew, pipeh])
-        pygame.draw.rect(screen, (0, 0, 0), [pipex[i] - pipew / 2, pipey[i] + 50, pipew, pipeh])
+        pygame.draw.rect(screen, (255, 255, 255), [pipex[i] - pipew / 2, pipey[i] - 720 / 2 - 350, pipew, pipeh])
+        pygame.draw.rect(screen, (255, 255, 255), [pipex[i] - pipew / 2, pipey[i] + 50, pipew, pipeh])
         #충돌했다면 게임 오버를 True로 설정
         if collide(x - w / 2, y - h / 2, w, h, pipex[i] - pipew / 2, pipey[i] - 720 / 2 - 350, pipew, pipeh) or\
             collide(x - w / 2, y - h / 2, w, h, pipex[i] - pipew / 2, pipey[i] + 50, pipew, pipeh) or\
