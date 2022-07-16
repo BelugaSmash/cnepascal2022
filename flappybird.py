@@ -1,4 +1,5 @@
 import pygame, sys
+import os
 import random
 
 #파이게임 초기화
@@ -7,6 +8,7 @@ pygame.init()
 screen = pygame.display.set_mode((1280, 720))
 
 #변수들 초기화
+cpath = os.path.dirname(__file__)
 gy = 0
 x, y, w, h = 100, 720 / 2, 50, 50
 pipex, pipey, pipew, pipeh = [1280,  1280 + 1280 // 3, 1280 + 1280 * 2 // 3],\
@@ -15,8 +17,8 @@ score = 0
 font1 = pygame.font.SysFont(None,30)
 game_over = False
 change_score = 5
-player_img = pygame.image.load("C:/Users/sudam/Desktop/정보 영재/프로젝트/cnpascal-3/pingu.png")
-game_over_img = pygame.image.load("C:/Users/sudam/Desktop/정보 영재/프로젝트/cnpascal-3/gameover.png")
+player_img = pygame.image.load(os.path.join(cpath, "pingu.png"))
+game_over_img = pygame.image.load(os.path.join(cpath, "gameover.png"))
 
 #게임 다시시작할 때 변수들 초기화
 def game_restart():
@@ -49,7 +51,7 @@ while 1:
             if event.key == pygame.K_SPACE:
                 if not game_over:
                     gy = 10.5
-                    mySound = pygame.mixer.Sound( "nootnoot.wav" )
+                    mySound = pygame.mixer.Sound("nootnoot.wav")
                     mySound.play()
                 else:
                     game_restart()
