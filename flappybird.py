@@ -25,6 +25,7 @@ game_over_img = pygame.image.load(os.path.join(cpath, "gameover.png"))
 pipe_img = pygame.image.load(os.path.join(cpath, "pipe.png"))
 pipe1_img = pygame.image.load(os.path.join(cpath, "pipe1.png"))
 background_img = pygame.image.load(os.path.join(cpath, "background_pixel.png"))
+mawang_background_img = pygame.image.load(os.path.join(cpath, "background_pixel_mawang.png"))
 
 #게임 다시시작할 때 변수들 초기화
 def game_restart():
@@ -76,6 +77,7 @@ while 1:
     #배경색을 흰색으로 채우기
     back_color = (255,255,255)
     if score >= change_score:
+        screen.blit(mawang_background_img, (0,0))
         back_color = (0,0,0)
     else:
         screen.blit(background_img, (0, 0))
