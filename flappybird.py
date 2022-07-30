@@ -86,6 +86,7 @@ while 1:
             if event.key == pygame.K_SPACE:
                 if main_scene:
                     game_restart()
+                    bgm.play()
                     main_scene=False
                 else:
                     if not game_over:
