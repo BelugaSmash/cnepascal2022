@@ -18,6 +18,7 @@ score = 0
 font1 = pygame.font.SysFont(None,30)
 game_over = False
 first_game_over = True
+first_changed = False
 change_score = 5
 player_img = pygame.image.load(os.path.join(cpath, "pingu2.png"))
 game_over_img = pygame.image.load(os.path.join(cpath, "gameover.png"))
@@ -26,7 +27,7 @@ pipe1_img = pygame.image.load(os.path.join(cpath, "pipe1.png"))
 
 #게임 다시시작할 때 변수들 초기화
 def game_restart():
-    global gy, x, y, w, h, pipex, pipey, pipew, pipeh, score, game_over,first_game_over
+    global gy, x, y, w, h, pipex, pipey, pipew, pipeh, score, game_over,first_game_over,first_changed 
     gy = 0
     x, y, w, h = 100, 720 / 2, 50, 50
     #파이프 x, y, 너비, 높이
@@ -34,6 +35,7 @@ def game_restart():
         [random.randint(720/2, 720/2 + 100),random.randint(720/2, 720/2 + 100),random.randint(720/2, 720/2 + 100)], 50, 500
     score = 0
     game_over = False
+    first_changed = False
     first_game_over = True
     mySound.stop()
     mySound2.stop()
@@ -48,6 +50,7 @@ def collide(x, y, w, h, x_, y_, w_, h_):
 clock = pygame.time.Clock()
 
 bgm = pygame.mixer.Sound('stage_bgm.wav')
+mawang_bgm = pygame.mixer.Sound("mawang.wav")
 bgm.set_volume(1.0)
 bgm.play()
 
@@ -74,7 +77,12 @@ while 1:
     if score >= change_score:
         back_color = (0,0,0)
     screen.fill(back_color)
-
+    
+    if score >= change_score:
+        if not first_changed:
+            first_changed = True
+            bgm.stop()
+            mawang_bgm.play()
     
     
     if not game_over:
@@ -144,6 +152,7 @@ while 1:
     if game_over:
         screen.blit(game_over_img, (0, 0))
         if first_game_over :
+            mawang_bgm.stop()
             bgm.stop()
             mySound2 = pygame.mixer.Sound( "121Nootnoot2.wav" )
             mySound2.play()
