@@ -112,7 +112,12 @@ while 1:
             pipe_color = (100, 30, 30)
         
         pygame.draw.rect(screen, pipe_color, [pipex[i] - pipew / 2, pipey[i] - 720 / 2 - 350, pipew, pipeh])
+        pygame.draw.rect(screen, back_color, [pipex[i] - pipew / 2 + 5, pipey[i] - 720 / 2 - 350 + 5, pipew - 10, pipeh - 10])
         pygame.draw.rect(screen, pipe_color, [pipex[i] - pipew / 2, pipey[i] + 50, pipew, pipeh])
+        pygame.draw.rect(screen, back_color, [pipex[i] - pipew / 2 + 5, pipey[i] + 55, pipew - 10, pipeh - 10])
+
+        screen.blit(pipe_img, (pipex[i] - pipew / 2, pipey[i] - 720 / 2 - 350))
+        screen.blit(pipe1_img, (pipex[i] - pipew / 2, pipey[i] + 50))
         postxt = font1.render('(' + str(pipex[i]) + ',' + str(pipey[i])+')',True,(255, 51, 153))
         screen.blit(postxt, (pipex[i] - 40, pipey[i] - 30))
         pygame.draw.rect(screen, (255, 51, 153), [pipex[i]-5, pipey[i]-5, 10, 10])
