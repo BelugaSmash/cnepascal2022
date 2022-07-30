@@ -3,6 +3,7 @@ import os
 import random
 
 #파이게임 초기화
+pygame.mixer.pre_init(44100, 16, 2, 4096)
 pygame.init()
 #파이게임 화면 크기 설정
 screen = pygame.display.set_mode((1280, 720))
@@ -145,7 +146,7 @@ while 1:
         screen.blit(game_over_img, (0, 0))
         if first_game_over :
             bgm.stop()
-            mySound2 = pygame.mixer.Sound( "121Nootnoot.mp3" )
+            mySound2 = pygame.mixer.Sound( "121Nootnoot2.wav" )
             mySound2.play()
             first_game_over = False
 
