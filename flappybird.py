@@ -26,6 +26,9 @@ pipe_img = pygame.image.load(os.path.join(cpath, "pipe.png"))
 pipe1_img = pygame.image.load(os.path.join(cpath, "pipe1.png"))
 tree_img = pygame.image.load(os.path.join(cpath, "tree.png"))
 tree1_img = pygame.image.load(os.path.join(cpath, "tree1.png"))
+title_img = [pygame.image.load(os.path.join(cpath, "title.png")),\
+        pygame.image.load(os.path.join(cpath, "title2.png")),\
+        pygame.image.load(os.path.join(cpath, "title.png"))]
 background_img = [pygame.image.load(os.path.join(cpath, "background.png")).convert(),\
         pygame.image.load(os.path.join(cpath, "nam.png")).convert(),\
         pygame.image.load(os.path.join(cpath, "background_pixel.png")).convert()]
@@ -33,8 +36,10 @@ mawang_background_img = [pygame.image.load(os.path.join(cpath, "background_mawan
         pygame.image.load(os.path.join(cpath, "ma.png")).convert(),\
             pygame.image.load(os.path.join(cpath, "background_pixel_mawang.png")).convert()]
 background_setting = 0
+high_score = 0
 
-is_setting_mode = True
+main_scene = True
+is_setting_mode = False
  
 #게임 다시시작할 때 변수들 초기화
 def game_restart():
@@ -63,7 +68,6 @@ clock = pygame.time.Clock()
 bgm = pygame.mixer.Sound('stage_bgm.wav')
 mawang_bgm = pygame.mixer.Sound("mawang.wav")
 bgm.set_volume(1.0)
-bgm.play()
 
 while 1:
     #FPS를 60으로 설정
@@ -73,7 +77,7 @@ while 1:
         if event.type==pygame.QUIT:
             sys.exit()
         #키가 눌렸다면
-        if event.type==pygame.KEYDOWN:
+        if event.type==pygame.KEYDOWN and not main_scene:
             #눌린 키가 스페이스라면 점프
             if event.key == pygame.K_SPACE:
                 if not game_over:
@@ -82,105 +86,142 @@ while 1:
                     mySound.play()
                 else:
                     game_restart()
+
+        if event.type==pygame.MOUSEBUTTONDOWN:
+            mouse_pos = pygame.mouse.get_pos()
+            x_ = mouse_pos[0]
+            y_ = mouse_pos[1]
+            if is_setting_mode:
+                if x_ >= 10 and x_ <= 110 and y_ >= 10 and y_ <= 110:
+                    is_setting_mode = False
+                else:
+                    background_setting += 1
+                    background_setting %= 3
+
+            elif main_scene:
+                #설정 버튼 클릭했을때
+                if x_ >= 1100 and x_ <= 1200 and y_ >= 600 and y_ <= 700:
+                    is_setting_mode = True
+                elif x_ >= 640-150 and x_ <= 640+150 and y_ >= 500 and y_ <= 600:
+                    main_scene = False
+                    bgm.play()
+
+    if not main_scene:
     
-    #배경색을 흰색으로 채우기
-    back_color = (255,255,255)
-    if score >= change_score:
-        screen.blit(mawang_background_img[background_setting], (0,0))
-        back_color = (0,0,0)
+        #배경색을 흰색으로 채우기
+        back_color = (255,255,255)
+        if score >= change_score:
+            screen.blit(mawang_background_img[background_setting], (0,0))
+            back_color = (0,0,0)
+        else:
+            screen.blit(background_img[background_setting], (0, 0))
+        
+        if score >= change_score:
+            if not first_changed:
+                first_changed = True
+                bgm.stop()
+                mawang_bgm.play()
+        
+        
+        if not game_over:
+            #중력 설정
+            gy -= 0.5
+            #y값을 중력값에 따라 떨어지게
+            y -= gy
+
+        #플레이어 화면에 그리기
+        player_color = (0, 0, 255) 
+        if score >= change_score:
+            player_color = (255, 0, 0)
+
+        '''
+        pygame.draw.rect(screen, (0, 255, 0), [x - w / 2, y - h / 2, w, h])
+        pygame.draw.rect(screen, back_color, [x - w / 2 + 5, y - h / 2 + 5, w - 10, h - 10])
+        '''
+        
+        print(x)
+        screen.blit(player_img, (x - 25, y - 25))
+        
+        postxt = font1.render('(' + str(x) + ',' + str(y)+')',True,(255, 51, 153))
+        #screen.blit(postxt, (x - 50, y - 50))
+        #pygame.draw.rect(screen, (255, 51, 153), [x-5, y-5, 10, 10])
+        #배관 관련 코드
+        for i in range(3):
+            if not game_over:
+                #배관 왼쪽으로 이동
+                pipex[i] -= 5 + 5 * (score >= change_score)
+            
+            #배관이 왼쪽 화면 밖으로 나갔다면 점수 + 1 하고 화면 오른쪽으로 보내기
+            if pipex[i] <= 0 - pipew:
+                pipex[i] = 1280 + pipew
+                pipey[i] = random.randint(720/2, 720/2 + 300)
+                score += 1
+
+            # 배관 그리기
+            pipe_color = (0, 255, 0)
+            if score >= change_score:
+                pipe_color = (100, 30, 30)
+            
+            #배관 히트박스 그리기
+            """
+            pygame.draw.rect(screen, pipe_color, [pipex[i] - pipew / 2, pipey[i] - 720 / 2 - 350, pipew, pipeh])
+            pygame.draw.rect(screen, back_color, [pipex[i] - pipew / 2 + 5, pipey[i] - 720 / 2 - 350 + 5, pipew - 10, pipeh - 10])
+            pygame.draw.rect(screen, pipe_color, [pipex[i] - pipew / 2, pipey[i] + 100, pipew, pipeh])
+            pygame.draw.rect(screen, back_color, [pipex[i] - pipew / 2 + 5, pipey[i] + 105, pipew - 10, pipeh - 10])
+            """
+
+            #배관 그리기
+            if score >= change_score:
+                screen.blit(tree1_img, (pipex[i] - pipe_img_w / 2, pipey[i] - 720 / 2 - 350))
+                screen.blit(tree_img, (pipex[i] - pipe_img_w / 2, pipey[i] + 50))
+            else:
+                screen.blit(pipe_img, (pipex[i] - pipe_img_w / 2, pipey[i] - 720 / 2 - 350))
+                screen.blit(pipe1_img, (pipex[i] - pipe_img_w / 2, pipey[i] + 50))
+            
+            postxt = font1.render('(' + str(pipex[i]) + ',' + str(pipey[i])+')',True,(255, 51, 153))
+
+            #screen.blit(postxt, (pipex[i] - 40, pipey[i] - 30))
+
+            #파이프 좌표 중심 그리기
+            #pygame.draw.rect(screen, (255, 51, 153), [pipex[i]-5, pipey[i]-5, 10, 10])
+
+            #충돌했다면 게임 오버를 True로 설정
+            if collide(x - w / 2, y - h / 2, w, h, pipex[i] - pipew / 2, pipey[i] - 720 / 2 - 350, pipew, pipeh) or\
+                collide(x - w / 2, y - h / 2, w, h, pipex[i] - pipew / 2, pipey[i] + 100, pipew, pipeh) or\
+                y < 0 or y > 720:
+                game_over = True
+        
+        #점수 표시
+        score_color = (0, 0, 0)
+        if score >= change_score:
+            score_color = (255,255,255)
+        scoretxt = font1.render('score: ' + str(score),True,score_color)
+        screen.blit(scoretxt, (10, 10))
+        
+        #게임 오버가 True라면 화면 가운데에 Game Over!표시 하고 게임을 정지 한다.
+        if game_over:
+            screen.blit(game_over_img, (0, 0))
+            if first_game_over :
+                mawang_bgm.stop()
+                bgm.stop()
+                mySound2 = pygame.mixer.Sound( "121Nootnoot2.wav" )
+                mySound2.play()
+                first_game_over = False
+                high_score = max(high_score, score)
+        
+    elif is_setting_mode:
+        screen.blit(background_img[background_setting], (0, 0))
+        txt = font1.render('Click To Change Background',True,(0, 0, 0))
+        screen.blit(txt, (1280/2-150, 20))
+        pygame.draw.rect(screen, (0, 255, 0), [10, 10, 100, 100])
+    
     else:
         screen.blit(background_img[background_setting], (0, 0))
-    
-    if score >= change_score:
-        if not first_changed:
-            first_changed = True
-            bgm.stop()
-            mawang_bgm.play()
-    
-    
-    if not game_over:
-        #중력 설정
-        gy -= 0.5
-        #y값을 중력값에 따라 떨어지게
-        y -= gy
-
-    #플레이어 화면에 그리기
-    player_color = (0, 0, 255) 
-    if score >= change_score:
-        player_color = (255, 0, 0)
-
-    '''
-    pygame.draw.rect(screen, (0, 255, 0), [x - w / 2, y - h / 2, w, h])
-    pygame.draw.rect(screen, back_color, [x - w / 2 + 5, y - h / 2 + 5, w - 10, h - 10])
-    '''
-
-    screen.blit(player_img, (x - 25, y - 25))
-    
-    postxt = font1.render('(' + str(x) + ',' + str(y)+')',True,(255, 51, 153))
-    #screen.blit(postxt, (x - 50, y - 50))
-    #pygame.draw.rect(screen, (255, 51, 153), [x-5, y-5, 10, 10])
-    #배관 관련 코드
-    for i in range(3):
-        if not game_over:
-            #배관 왼쪽으로 이동
-            pipex[i] -= 5 + 5 * (score >= change_score)
-        
-        #배관이 왼쪽 화면 밖으로 나갔다면 점수 + 1 하고 화면 오른쪽으로 보내기
-        if pipex[i] <= 0 - pipew:
-            pipex[i] = 1280 + pipew
-            pipey[i] = random.randint(720/2, 720/2 + 300)
-            score += 1
-
-        # 배관 그리기
-        pipe_color = (0, 255, 0)
-        if score >= change_score:
-            pipe_color = (100, 30, 30)
-        
-        #배관 히트박스 그리기
-        """
-        pygame.draw.rect(screen, pipe_color, [pipex[i] - pipew / 2, pipey[i] - 720 / 2 - 350, pipew, pipeh])
-        pygame.draw.rect(screen, back_color, [pipex[i] - pipew / 2 + 5, pipey[i] - 720 / 2 - 350 + 5, pipew - 10, pipeh - 10])
-        pygame.draw.rect(screen, pipe_color, [pipex[i] - pipew / 2, pipey[i] + 100, pipew, pipeh])
-        pygame.draw.rect(screen, back_color, [pipex[i] - pipew / 2 + 5, pipey[i] + 105, pipew - 10, pipeh - 10])
-        """
-
-        #배관 그리기
-        if score >= change_score:
-            screen.blit(tree1_img, (pipex[i] - pipe_img_w / 2, pipey[i] - 720 / 2 - 350))
-            screen.blit(tree_img, (pipex[i] - pipe_img_w / 2, pipey[i] + 50))
-        else:
-            screen.blit(pipe_img, (pipex[i] - pipe_img_w / 2, pipey[i] - 720 / 2 - 350))
-            screen.blit(pipe1_img, (pipex[i] - pipe_img_w / 2, pipey[i] + 50))
-        
-        postxt = font1.render('(' + str(pipex[i]) + ',' + str(pipey[i])+')',True,(255, 51, 153))
-
-        #screen.blit(postxt, (pipex[i] - 40, pipey[i] - 30))
-
-        #파이프 좌표 중심 그리기
-        #pygame.draw.rect(screen, (255, 51, 153), [pipex[i]-5, pipey[i]-5, 10, 10])
-
-        #충돌했다면 게임 오버를 True로 설정
-        if collide(x - w / 2, y - h / 2, w, h, pipex[i] - pipew / 2, pipey[i] - 720 / 2 - 350, pipew, pipeh) or\
-            collide(x - w / 2, y - h / 2, w, h, pipex[i] - pipew / 2, pipey[i] + 100, pipew, pipeh) or\
-            y < 0 or y > 720:
-            game_over = True
-    
-    #점수 표시
-    score_color = (0, 0, 0)
-    if score >= change_score:
-        score_color = (255,255,255)
-    scoretxt = font1.render('score: ' + str(score),True,score_color)
-    screen.blit(scoretxt, (10, 10))
-    
-    #게임 오버가 True라면 화면 가운데에 Game Over!표시 하고 게임을 정지 한다.
-    if game_over:
-        screen.blit(game_over_img, (0, 0))
-        if first_game_over :
-            mawang_bgm.stop()
-            bgm.stop()
-            mySound2 = pygame.mixer.Sound( "121Nootnoot2.wav" )
-            mySound2.play()
-            first_game_over = False
+        highscoretxt = font1.render('High Score: ' + str(high_score),True,(0, 0, 0))
+        screen.blit(highscoretxt, (10, 10))
+        pygame.draw.rect(screen, (0, 255, 0), [1100, 600, 100, 100])
+        screen.blit(title_img[background_setting], (1280/2-320, 720/2-280))
+        pygame.draw.rect(screen, (0, 0, 255), [1280/2-150, 500, 300, 100])
 
     pygame.display.update()
 
