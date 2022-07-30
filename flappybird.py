@@ -21,17 +21,18 @@ first_game_over = True
 first_changed = False
 change_score = 5
 player_img = pygame.image.load(os.path.join(cpath, "pingu2.png"))
-player_img.convert()
 game_over_img = pygame.image.load(os.path.join(cpath, "gameover.png"))
-game_over_img.convert()
 pipe_img = pygame.image.load(os.path.join(cpath, "pipe.png"))
-pipe_img.convert()
 pipe1_img = pygame.image.load(os.path.join(cpath, "pipe1.png"))
-pipe1_img.convert()
-background_img = pygame.image.load(os.path.join(cpath, "background_pixel.png"))
-background_img.convert()
-mawang_background_img = pygame.image.load(os.path.join(cpath, "background_pixel_mawang.png"))
-mawang_background_img.convert()
+tree_img = pygame.image.load(os.path.join(cpath, "tree.png"))
+tree1_img = pygame.image.load(os.path.join(cpath, "tree1.png"))
+background_img = [pygame.image.load(os.path.join(cpath, "background.png")).convert(),\
+        pygame.image.load(os.path.join(cpath, "nam.png")).convert(),\
+        pygame.image.load(os.path.join(cpath, "background_pixel.png")).convert()]
+mawang_background_img = [pygame.image.load(os.path.join(cpath, "background_pixel_mawang.png")).convert(),\
+        pygame.image.load(os.path.join(cpath, "ma.png")).convert(),\
+            pygame.image.load(os.path.join(cpath, "background_pixel_mawang.png")).convert()]
+background_setting = 0
  
 #게임 다시시작할 때 변수들 초기화
 def game_restart():
@@ -83,10 +84,10 @@ while 1:
     #배경색을 흰색으로 채우기
     back_color = (255,255,255)
     if score >= change_score:
-        screen.blit(mawang_background_img, (0,0))
+        screen.blit(mawang_background_img[background_setting], (0,0))
         back_color = (0,0,0)
     else:
-        screen.blit(background_img, (0, 0))
+        screen.blit(background_img[background_setting], (0, 0))
     
     if score >= change_score:
         if not first_changed:
@@ -142,9 +143,15 @@ while 1:
         """
 
         #배관 그리기
-        screen.blit(pipe_img, (pipex[i] - pipe_img_w / 2, pipey[i] - 720 / 2 - 350))
-        screen.blit(pipe1_img, (pipex[i] - pipe_img_w / 2, pipey[i] + 50))
+        if score >= change_score:
+            screen.blit(tree1_img, (pipex[i] - pipe_img_w / 2, pipey[i] - 720 / 2 - 350))
+            screen.blit(tree_img, (pipex[i] - pipe_img_w / 2, pipey[i] + 50))
+        else:
+            screen.blit(pipe_img, (pipex[i] - pipe_img_w / 2, pipey[i] - 720 / 2 - 350))
+            screen.blit(pipe1_img, (pipex[i] - pipe_img_w / 2, pipey[i] + 50))
+        
         postxt = font1.render('(' + str(pipex[i]) + ',' + str(pipey[i])+')',True,(255, 51, 153))
+        
         #screen.blit(postxt, (pipex[i] - 40, pipey[i] - 30))
 
         #파이프 좌표 중심 그리기
