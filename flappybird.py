@@ -12,7 +12,8 @@ cpath = os.path.dirname(__file__)
 gy = 0
 x, y, w, h = 100, 720 / 2, 50, 50
 pipex, pipey, pipew, pipeh = [1280,  1280 + 1280 // 3, 1280 + 1280 * 2 // 3],\
-     [random.randint(720/2, 720/2 + 100),random.randint(720/2, 720/2 + 100),random.randint(720/2, 720/2 + 100)], 100, 550
+     [random.randint(720/2, 720/2 + 100),random.randint(720/2, 720/2 + 100),random.randint(720/2, 720/2 + 100)], 50, 500
+pipe_img_w, pipe_img_h = 100, 550
 score = 0
 font1 = pygame.font.SysFont(None,30)
 game_over = False
@@ -28,8 +29,9 @@ def game_restart():
     global gy, x, y, w, h, pipex, pipey, pipew, pipeh, score, game_over,first_game_over
     gy = 0
     x, y, w, h = 100, 720 / 2, 50, 50
+    #파이프 x, y, 너비, 높이
     pipex, pipey, pipew, pipeh = [1280,  1280 + 1280 // 3, 1280 + 1280 * 2 // 3],\
-        [random.randint(720/2, 720/2 + 100),random.randint(720/2, 720/2 + 100),random.randint(720/2, 720/2 + 100)], 100, 550
+        [random.randint(720/2, 720/2 + 100),random.randint(720/2, 720/2 + 100),random.randint(720/2, 720/2 + 100)], 50, 500
     score = 0
     game_over = False
     first_game_over = True
@@ -114,12 +116,12 @@ while 1:
         #배관 히트박스 그리기
         pygame.draw.rect(screen, pipe_color, [pipex[i] - pipew / 2, pipey[i] - 720 / 2 - 350, pipew, pipeh])
         pygame.draw.rect(screen, back_color, [pipex[i] - pipew / 2 + 5, pipey[i] - 720 / 2 - 350 + 5, pipew - 10, pipeh - 10])
-        pygame.draw.rect(screen, pipe_color, [pipex[i] - pipew / 2, pipey[i] + 50, pipew, pipeh])
-        pygame.draw.rect(screen, back_color, [pipex[i] - pipew / 2 + 5, pipey[i] + 55, pipew - 10, pipeh - 10])
+        pygame.draw.rect(screen, pipe_color, [pipex[i] - pipew / 2, pipey[i] + 100, pipew, pipeh])
+        pygame.draw.rect(screen, back_color, [pipex[i] - pipew / 2 + 5, pipey[i] + 105, pipew - 10, pipeh - 10])
 
         #배관 그리기
-        screen.blit(pipe_img, (pipex[i] - pipew / 2, pipey[i] - 720 / 2 - 350))
-        screen.blit(pipe1_img, (pipex[i] - pipew / 2, pipey[i] + 50))
+        screen.blit(pipe_img, (pipex[i] - pipe_img_w / 2, pipey[i] - 720 / 2 - 350))
+        screen.blit(pipe1_img, (pipex[i] - pipe_img_w / 2, pipey[i] + 50))
         postxt = font1.render('(' + str(pipex[i]) + ',' + str(pipey[i])+')',True,(255, 51, 153))
         screen.blit(postxt, (pipex[i] - 40, pipey[i] - 30))
 
@@ -127,7 +129,7 @@ while 1:
         pygame.draw.rect(screen, (255, 51, 153), [pipex[i]-5, pipey[i]-5, 10, 10])
         #충돌했다면 게임 오버를 True로 설정
         if collide(x - w / 2, y - h / 2, w, h, pipex[i] - pipew / 2, pipey[i] - 720 / 2 - 350, pipew, pipeh) or\
-            collide(x - w / 2, y - h / 2, w, h, pipex[i] - pipew / 2, pipey[i] + 50, pipew, pipeh) or\
+            collide(x - w / 2, y - h / 2, w, h, pipex[i] - pipew / 2, pipey[i] + 100, pipew, pipeh) or\
             y < 0 or y > 720:
             game_over = True
     
