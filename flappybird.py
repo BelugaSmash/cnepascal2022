@@ -95,12 +95,12 @@ while 1:
                     else:
                         game_restart()
                         main_scene = True
-
+  
         if event.type==pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
             x_ = mouse_pos[0]
             y_ = mouse_pos[1]
-            if is_setting_mode:
+            if is_setting_mode: 
                 if x_ >= 10 and x_ <= 110 and y_ >= 10 and y_ <= 110:
                     is_setting_mode = False
                 else:
@@ -114,6 +114,11 @@ while 1:
                 elif x_ >= 640-150 and x_ <= 640+150 and y_ >= 400 and y_ <= 500:
                     main_scene = False
                     bgm.play()
+            else:
+                if not game_over:
+                    gy = 10.5
+                    mySound.play()
+
 
     if not main_scene:
     
