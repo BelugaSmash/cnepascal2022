@@ -29,10 +29,12 @@ tree1_img = pygame.image.load(os.path.join(cpath, "tree1.png"))
 background_img = [pygame.image.load(os.path.join(cpath, "background.png")).convert(),\
         pygame.image.load(os.path.join(cpath, "nam.png")).convert(),\
         pygame.image.load(os.path.join(cpath, "background_pixel.png")).convert()]
-mawang_background_img = [pygame.image.load(os.path.join(cpath, "background_pixel_mawang.png")).convert(),\
+mawang_background_img = [pygame.image.load(os.path.join(cpath, "background_mawang.png")).convert(),\
         pygame.image.load(os.path.join(cpath, "ma.png")).convert(),\
             pygame.image.load(os.path.join(cpath, "background_pixel_mawang.png")).convert()]
 background_setting = 0
+
+is_setting_mode = True
  
 #게임 다시시작할 때 변수들 초기화
 def game_restart():
@@ -151,7 +153,7 @@ while 1:
             screen.blit(pipe1_img, (pipex[i] - pipe_img_w / 2, pipey[i] + 50))
         
         postxt = font1.render('(' + str(pipex[i]) + ',' + str(pipey[i])+')',True,(255, 51, 153))
-        
+
         #screen.blit(postxt, (pipex[i] - 40, pipey[i] - 30))
 
         #파이프 좌표 중심 그리기
