@@ -30,6 +30,7 @@ title_img = [pygame.image.load(os.path.join(cpath, "title.png")),\
         pygame.image.load(os.path.join(cpath, "title2.png")),\
         pygame.image.load(os.path.join(cpath, "title.png"))]
 setting_img = pygame.image.load(os.path.join(cpath, "setting.png"))
+back_img = pygame.image.load(os.path.join(cpath, "back.png"))
 gamestart_img=[pygame.image.load(os.path.join(cpath, "gamestart.png")),\
         pygame.image.load(os.path.join(cpath, "gamestart1.png")),\
         pygame.image.load(os.path.join(cpath, "gamestart2.png"))]
@@ -121,7 +122,6 @@ while 1:
 
 
     if not main_scene:
-    
         #배경색을 흰색으로 채우기
         back_color = (255,255,255)
         if score >= change_score:
@@ -135,7 +135,6 @@ while 1:
                 first_changed = True
                 bgm.stop()
                 mawang_bgm.play()
-        
         
         if not game_over:
             #중력 설정
@@ -228,7 +227,7 @@ while 1:
         screen.blit(background_img[background_setting], (0, 0))
         txt = font1.render('Click To Change Background',True,(0, 0, 0))
         screen.blit(txt, (1280/2-150, 20))
-        pygame.draw.rect(screen, (0, 255, 0), [10, 10, 100, 100])
+        screen.blit(back_img, (10, 10))
     
     else:
         screen.blit(background_img[background_setting], (0, 0))
