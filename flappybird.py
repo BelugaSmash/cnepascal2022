@@ -24,9 +24,9 @@ player_img = pygame.image.load(os.path.join(cpath, "pingu2.png"))
 game_over_img = pygame.image.load(os.path.join(cpath, "gameover.png"))
 pipe_img = pygame.image.load(os.path.join(cpath, "pipe.png"))
 pipe1_img = pygame.image.load(os.path.join(cpath, "pipe1.png"))
-background_img = pygame.image.load(os.path.join(cpath, "nam.png"))
-mawang_background_img = pygame.image.load(os.path.join(cpath, "ma.png"))
-
+background_img = pygame.image.load(os.path.join(cpath, "background_pixel.png"))
+mawang_background_img = pygame.image.load(os.path.join(cpath, "background_pixel_mawang.png"))
+ 
 #게임 다시시작할 때 변수들 초기화
 def game_restart():
     global gy, x, y, w, h, pipex, pipey, pipew, pipeh, score, game_over,first_game_over,first_changed 
