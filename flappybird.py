@@ -44,6 +44,8 @@ high_score = 0
 
 main_scene = True
 is_setting_mode = False
+mySound = pygame.mixer.Sound("juuuuuump.wav")
+mySound2 = pygame.mixer.Sound( "121Nootnoot2.wav" )
  
 #게임 다시시작할 때 변수들 초기화
 def game_restart():
@@ -83,11 +85,11 @@ while 1:
             #눌린 키가 스페이스라면 점프
             if event.key == pygame.K_SPACE:
                 if main_scene:
+                    game_restart()
                     main_scene=False
                 else:
                     if not game_over:
                         gy = 10.5
-                        mySound = pygame.mixer.Sound("juuuuuump.wav")
                         mySound.play()
                     else:
                         game_restart()
@@ -210,7 +212,6 @@ while 1:
             if first_game_over :
                 mawang_bgm.stop()
                 bgm.stop()
-                mySound2 = pygame.mixer.Sound( "121Nootnoot2.wav" )
                 mySound2.play()
                 first_game_over = False
                 high_score = max(high_score, score)
