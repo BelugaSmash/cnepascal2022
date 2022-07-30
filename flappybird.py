@@ -204,8 +204,11 @@ while 1:
         score_color = (0, 0, 0)
         if score >= change_score:
             score_color = (255,255,255)
-        scoretxt = font1.render('score: ' + str(score),True,score_color)
+        scoretxt = font1.render('Score: ' + str(score),True,score_color)
+        high_score = max(high_score, score)
         screen.blit(scoretxt, (10, 10))
+        highscoretxt = font1.render('High Score: ' + str(high_score),True,score_color)
+        screen.blit(highscoretxt, (10, 40))
         
         #게임 오버가 True라면 화면 가운데에 Game Over!표시 하고 게임을 정지 한다.
         if game_over:
@@ -215,7 +218,6 @@ while 1:
                 bgm.stop()
                 mySound2.play()
                 first_game_over = False
-                high_score = max(high_score, score)
         
     elif is_setting_mode:
         screen.blit(background_img[background_setting], (0, 0))
