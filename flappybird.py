@@ -3,7 +3,6 @@ import os
 import random
 
 #파이게임 초기화
-pygame.mixer.pre_init(44100, 16, 2, 4096)
 pygame.init()
 #파이게임 화면 크기 설정
 screen = pygame.display.set_mode((1280, 720))
