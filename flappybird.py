@@ -29,6 +29,10 @@ tree1_img = pygame.image.load(os.path.join(cpath, "tree1.png"))
 title_img = [pygame.image.load(os.path.join(cpath, "title.png")),\
         pygame.image.load(os.path.join(cpath, "title2.png")),\
         pygame.image.load(os.path.join(cpath, "title.png"))]
+setting_img = pygame.image.load(os.path.join(cpath, "setting.png"))
+gamestart_img=[pygame.image.load(os.path.join(cpath, "gamestart.png")),\
+        pygame.image.load(os.path.join(cpath, "gamestart1.png")),\
+        pygame.image.load(os.path.join(cpath, "gamestart2.png"))]
 background_img = [pygame.image.load(os.path.join(cpath, "background.png")).convert(),\
         pygame.image.load(os.path.join(cpath, "nam.png")).convert(),\
         pygame.image.load(os.path.join(cpath, "background_pixel.png")).convert()]
@@ -53,9 +57,7 @@ def game_restart():
     game_over = False
     first_changed = False
     first_game_over = True
-    mySound.stop()
     mySound2.stop()
-    bgm.play()
 
 
 #좌표, 가로 크기, 세로 크기가 주어졌을 때 충돌 했는지 체크
@@ -77,15 +79,19 @@ while 1:
         if event.type==pygame.QUIT:
             sys.exit()
         #키가 눌렸다면
-        if event.type==pygame.KEYDOWN and not main_scene:
+        if event.type==pygame.KEYDOWN:
             #눌린 키가 스페이스라면 점프
             if event.key == pygame.K_SPACE:
-                if not game_over:
-                    gy = 10.5
-                    mySound = pygame.mixer.Sound("juuuuuump.wav")
-                    mySound.play()
+                if main_scene:
+                    main_scene=False
                 else:
-                    game_restart()
+                    if not game_over:
+                        gy = 10.5
+                        mySound = pygame.mixer.Sound("juuuuuump.wav")
+                        mySound.play()
+                    else:
+                        game_restart()
+                        main_scene = True
 
         if event.type==pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
@@ -102,7 +108,7 @@ while 1:
                 #설정 버튼 클릭했을때
                 if x_ >= 1100 and x_ <= 1200 and y_ >= 600 and y_ <= 700:
                     is_setting_mode = True
-                elif x_ >= 640-150 and x_ <= 640+150 and y_ >= 500 and y_ <= 600:
+                elif x_ >= 640-150 and x_ <= 640+150 and y_ >= 400 and y_ <= 500:
                     main_scene = False
                     bgm.play()
 
@@ -219,9 +225,9 @@ while 1:
         screen.blit(background_img[background_setting], (0, 0))
         highscoretxt = font1.render('High Score: ' + str(high_score),True,(0, 0, 0))
         screen.blit(highscoretxt, (10, 10))
-        pygame.draw.rect(screen, (0, 255, 0), [1100, 600, 100, 100])
+        screen.blit(setting_img, (1100, 600))
         screen.blit(title_img[background_setting], (1280/2-320, 720/2-280))
-        pygame.draw.rect(screen, (0, 0, 255), [1280/2-150, 500, 300, 100])
+        screen.blit(gamestart_img[background_setting], (1280/2-150, 400))
 
     pygame.display.update()
 
