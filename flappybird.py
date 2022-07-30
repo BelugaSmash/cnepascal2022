@@ -143,7 +143,7 @@ while 1:
         screen.blit(game_over_img, (0, 0))
         if first_game_over :
             bgm.stop()
-            mySound2 = pygame.mixer.Sound( "121Nootnoot.wav" )
+            mySound2 = pygame.mixer.Sound( "121Nootnoot.mp3" )
             mySound2.play()
             first_game_over = False
 
