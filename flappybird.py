@@ -4,6 +4,10 @@ import random
 
 #파이게임 초기화
 pygame.init()
+
+#창 제목 설정
+pygame.display.set_caption("Pingu's Adventure")
+
 #파이게임 화면 크기 설정
 screen = pygame.display.set_mode((1280, 720))
 
@@ -42,6 +46,8 @@ mawang_background_img = [pygame.image.load(os.path.join(cpath, "background_mawan
             pygame.image.load(os.path.join(cpath, "background_pixel_mawang.png")).convert()]
 background_setting = 0
 high_score = 0
+pipe_base_speed = 5
+pipe_increase_speed = 5
 
 main_scene = True
 is_setting_mode = False
@@ -85,7 +91,7 @@ while 1:
         if event.type==pygame.KEYDOWN:
             #눌린 키가 스페이스라면 점프
             if event.key == pygame.K_SPACE:
-                if main_scene:
+                if main_scene and not is_setting_mode:
                     game_restart()
                     bgm.play()
                     main_scene=False
@@ -162,7 +168,7 @@ while 1:
         for i in range(3):
             if not game_over:
                 #배관 왼쪽으로 이동
-                pipex[i] -= 5 + 5 * (score >= change_score)
+                pipex[i] -= pipe_base_speed + pipe_increase_speed * (score >= change_score)
             
             #배관이 왼쪽 화면 밖으로 나갔다면 점수 + 1 하고 화면 오른쪽으로 보내기
             if pipex[i] <= 0 - pipew:
