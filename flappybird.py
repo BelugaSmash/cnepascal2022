@@ -32,7 +32,7 @@ tree_img = pygame.image.load(os.path.join(cpath, "tree.png"))
 tree1_img = pygame.image.load(os.path.join(cpath, "tree1.png"))
 title_img = [pygame.image.load(os.path.join(cpath, "title.png")),\
         pygame.image.load(os.path.join(cpath, "title2.png")),\
-        pygame.image.load(os.path.join(cpath, "title.png"))]
+        pygame.image.load(os.path.join(cpath, "title3.png"))]
 setting_img = pygame.image.load(os.path.join(cpath, "setting.png"))
 back_img = pygame.image.load(os.path.join(cpath, "back.png"))
 gamestart_img=[pygame.image.load(os.path.join(cpath, "gamestart.png")),\
