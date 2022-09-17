@@ -102,9 +102,11 @@ def get_nearest_pipe():
 # 그 뭐시기 그 그 그 FPS 그거 할려고 설정 할려고
 clock = pygame.time.Clock()
 
+main_scene_bgm = pygame.mixer.Sound('resources/nocturne.wav')
 bgm = pygame.mixer.Sound('resources/stage_bgm.wav')
 mawang_bgm = pygame.mixer.Sound("resources/mawang.wav")
 bgm.set_volume(1.0)
+main_scene_bgm.play()   
 
 while 1:
     # FPS를 60으로 설정
@@ -133,6 +135,7 @@ while 1:
                     is_setting_mode = True
                 elif x_ >= 640 - 150 and x_ <= 640 + 150 and y_ >= 400 and y_ <= 500:
                     main_scene = False
+                    main_scene_bgm.stop()
                     bgm.play()
             else:
                 if not game_over and not ai_mode:
@@ -145,6 +148,7 @@ while 1:
             if event.key == pygame.K_SPACE:
                 if main_scene and not is_setting_mode:
                     game_restart()
+                    main_scene_bgm.stop()
                     bgm.play()
                     main_scene = False
                 elif not is_setting_mode:
@@ -157,6 +161,8 @@ while 1:
                     else:
                         game_restart()
                         main_scene = True
+                        
+                        main_scene_bgm.play()
 
     if not main_scene:
         # 배경색을 흰색으로 채우기
