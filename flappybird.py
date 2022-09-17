@@ -106,7 +106,7 @@ main_scene_bgm = pygame.mixer.Sound('resources/nocturne.wav')
 bgm = pygame.mixer.Sound('resources/stage_bgm.wav')
 mawang_bgm = pygame.mixer.Sound("resources/mawang.wav")
 bgm.set_volume(1.0)
-main_scene_bgm.play(-1)   
+main_scene_bgm.play()   
 
 while 1:
     # FPS를 60으로 설정
