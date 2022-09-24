@@ -177,7 +177,10 @@ while 1:
                     main_scene = False
                     main_scene_bgm.stop()
                     if not mute:
-                        bgm.play()
+                        if level == 2:
+                            mySound3.play()
+                        else:
+                            bgm.play()
             else:
                 if not game_over and not ai_mode:
                     gy = 10
