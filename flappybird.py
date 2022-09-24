@@ -90,6 +90,9 @@ stop_in_ai_mode = False
 mute = False
 mySound = pygame.mixer.Sound("resources/juuuuuump.wav")
 mySound2 = pygame.mixer.Sound("resources/121Nootnoot2.wav")
+mySound3 = pygame.mixer.Sound("resources/e_mart.wav")
+
+mySound.set_volume(0.25)
 
 ai = [ai.AI(), ai.AI(), ai.AI()]
 
@@ -189,7 +192,10 @@ while 1:
                     game_restart()
                     main_scene_bgm.stop()
                     if not mute:
-                        bgm.play()
+                        if level == 2:
+                            mySound3.play()
+                        else:
+                            bgm.play()
                     main_scene = False
                 elif not is_setting_mode:
                     if not game_over:
@@ -315,6 +321,7 @@ while 1:
             if first_game_over:
                 mawang_bgm.stop()
                 bgm.stop()
+                mySound3.stop()
                 if not mute:
                     mySound2.play()
                 first_game_over = False
