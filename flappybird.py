@@ -79,7 +79,7 @@ mawang_background_img = [pygame.image.load(os.path.join(cpath, "resources/backgr
                          pygame.image.load(os.path.join(cpath, "resources/background_pixel_mawang.png")).convert()]
 '''
 background_setting = 0
-high_score = 0
+high_score = [0, 0, 0]
 pipe_base_speed = 7.5
 pipe_increase_speed = 7.5
 level = 0
@@ -93,7 +93,6 @@ mySound2 = pygame.mixer.Sound("resources/121Nootnoot2.wav")
 mySound3 = pygame.mixer.Sound("resources/e_mart.wav")
 
 mySound.set_volume(0.25)
-mySound2.set_volume(10.0)
 
 ai = [ai.AI(), ai.AI(), ai.AI()]
 
@@ -194,7 +193,7 @@ while 1:
                     main_scene_bgm.stop()
                     if not mute:
                         if level == 2:
-                            mySound3.play(-1)
+                            mySound3.play()
                         else:
                             bgm.play()
                     main_scene = False
@@ -227,7 +226,7 @@ while 1:
                 bgm.stop()
                 if not mute:
                     if level != 2:
-                        mawang_bgm.play(-1)
+                        mawang_bgm.play()
 
         if ai[level].jump(dist(pipex[get_nearest_pipe()], x), dist(pipey[get_nearest_pipe()], y)) and not game_over and ai_mode:
             gy = 10.5
@@ -246,7 +245,6 @@ while 1:
             player_color = (255, 0, 0)
 
         """
-
         pygame.draw.rect(screen, (0, 255, 0), [x - w / 2, y - h / 2, w, h])
         pygame.draw.rect(screen, back_color, [x - w / 2 + 5, y - h / 2 + 5, w - 10, h - 10])
         """
@@ -307,9 +305,9 @@ while 1:
         if score >= change_score:
             score_color = (255, 255, 255)
         scoretxt = font1.render('Score: ' + str(score), True, score_color)
-        high_score = max(high_score, score)
+        high_score[level] = max(high_score[level], score)
         screen.blit(scoretxt, (10, 10))
-        highscoretxt = font1.render('High Score: ' + str(high_score), True, score_color)
+        highscoretxt = font1.render(f'High Score({"easy" if level == 0 else ("normal" if level == 1 else "hard")}): {high_score[level]}', True, score_color)
         screen.blit(highscoretxt, (10, 40))
         if ai_mode:
             gen_text = font1.render('Generation ' + str(
@@ -355,7 +353,7 @@ while 1:
         screen.blit(back_img, (10, 10))
     else:
         screen.blit(background_img[background_setting], (0, 0))
-        highscoretxt = font1.render('High Score: ' + str(high_score), True, (0, 0, 0))
+        highscoretxt = font1.render(f'High Score({"easy" if level == 0 else ("normal" if level == 1 else "hard")}): {high_score[level]}', True, (0, 0, 0))
         screen.blit(highscoretxt, (10, 10))
         screen.blit(setting_img, (1100, 600))
         screen.blit(title_img[background_setting], (1280 / 2 - 320, 720 / 2 - 280))
