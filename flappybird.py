@@ -194,7 +194,7 @@ while 1:
                     main_scene_bgm.stop()
                     if not mute:
                         if level == 2:
-                            mySound3.play()
+                            mySound3.play(-1)
                         else:
                             bgm.play()
                     main_scene = False
@@ -227,7 +227,7 @@ while 1:
                 bgm.stop()
                 if not mute:
                     if level != 2:
-                        mawang_bgm.play()
+                        mawang_bgm.play(-1)
 
         if ai[level].jump(dist(pipex[get_nearest_pipe()], x), dist(pipey[get_nearest_pipe()], y)) and not game_over and ai_mode:
             gy = 10.5
