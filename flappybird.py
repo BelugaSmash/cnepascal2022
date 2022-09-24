@@ -225,7 +225,8 @@ while 1:
                 first_changed = True
                 bgm.stop()
                 if not mute:
-                    mawang_bgm.play()
+                    if level != 2:
+                        mawang_bgm.play()
 
         if ai[level].jump(dist(pipex[get_nearest_pipe()], x), dist(pipey[get_nearest_pipe()], y)) and not game_over and ai_mode:
             gy = 10.5
