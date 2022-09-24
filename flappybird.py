@@ -1,5 +1,6 @@
 from resources import fb_ai as ai
-import pygame, sys
+import pygame
+import sys
 import os
 import random
 
@@ -90,8 +91,7 @@ mute = False
 mySound = pygame.mixer.Sound("resources/juuuuuump.wav")
 mySound2 = pygame.mixer.Sound("resources/121Nootnoot2.wav")
 
-ai = ai.AI()
-
+ai = [ai.AI(), ai.AI(), ai.AI()]
 
 # 게임 다시시작할 때 변수들 초기화
 def game_restart():
@@ -221,7 +221,7 @@ while 1:
                 if not mute:
                     mawang_bgm.play()
 
-        if ai.jump(dist(pipex[get_nearest_pipe()], x), dist(pipey[get_nearest_pipe()], y)) and not game_over and ai_mode:
+        if ai[level].jump(dist(pipex[get_nearest_pipe()], x), dist(pipey[get_nearest_pipe()], y)) and not game_over and ai_mode:
             gy = 10.5
             if not mute:
                 mySound.play()
@@ -305,8 +305,8 @@ while 1:
         screen.blit(highscoretxt, (10, 40))
         if ai_mode:
             gen_text = font1.render('Generation ' + str(
-                ai.generation - (1 if not first_game_over and ai.current_ai == 0 else 0)) + ', ai' + str(
-                (ai.current_ai - (1 if not first_game_over else 0)) % 50), True, score_color)
+                ai[level].generation - (1 if not first_game_over and ai[level].current_ai == 0 else 0)) + ', ai' + str(
+                (ai[level].current_ai - (1 if not first_game_over else 0)) % 50), True, score_color)
             screen.blit(gen_text, (10, 70))
 
         # 게임 오버가 True라면 화면 가운데에 Game Over!표시 하고 게임을 정지 한다.
@@ -319,7 +319,7 @@ while 1:
                     mySound2.play()
                 first_game_over = False
                 if ai_mode:
-                    ai.game_over(score)
+                    ai[level].game_over(score)
                     if not stop_in_ai_mode:
                         game_restart()
                         if not mute:
