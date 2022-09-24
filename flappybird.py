@@ -38,6 +38,9 @@ title_img = [pygame.image.load("resources/title.png"),
              pygame.image.load("resources/title2.png"),
              pygame.image.load("resources/title3.png")]
 setting_img = pygame.image.load("resources/setting.png")
+level_img = [pygame.image.load("resources/easy_button.png"),
+             pygame.image.load("resources/normal_button.png"),
+             pygame.image.load("resources/hard_button.png")]
 checkbox = [pygame.image.load("resources/checkbox.png"),
             pygame.image.load("resources/checkbox2.png")]
 back_img = pygame.image.load("resources/back.png")
@@ -50,15 +53,40 @@ background_img = [pygame.image.load("resources/background.png").convert(),
 mawang_background_img = [pygame.image.load("resources/background_mawang.png").convert(),
                          pygame.image.load("resources/ma.png").convert(),
                          pygame.image.load("resources/background_pixel_mawang.png").convert()]
-
+'''
+player_img = pygame.image.load(os.path.join(cpath, "resources/pingu2.png"))
+game_over_img = pygame.image.load(os.path.join(cpath, "resources/gameover.png"))
+pipe_img = pygame.image.load(os.path.join(cpath, "resources/pipe.png"))
+pipe1_img = pygame.image.load(os.path.join(cpath, "resources/pipe1.png"))
+tree_img = pygame.image.load(os.path.join(cpath, "resources/tree.png"))
+tree1_img = pygame.image.load(os.path.join(cpath, "resources/tree1.png"))
+title_img = [pygame.image.load(os.path.join(cpath, "resources/title.png")),
+             pygame.image.load(os.path.join(cpath, "resources/title2.png")),
+             pygame.image.load(os.path.join(cpath, "resources/title3.png"))]
+setting_img = pygame.image.load(os.path.join(cpath, "resources/setting.png"))
+checkbox = [pygame.image.load(os.path.join(cpath, "resources/checkbox.png")),
+            pygame.image.load(os.path.join(cpath, "resources/checkbox2.png"))]
+back_img = pygame.image.load(os.path.join(cpath, "resources/back.png"))
+gamestart_img = [pygame.image.load(os.path.join(cpath, "resources/gamestart.png")),
+                 pygame.image.load(os.path.join(cpath, "resources/gamestart1.png")),
+                 pygame.image.load(os.path.join(cpath, "resources/gamestart2.png"))]
+background_img = [pygame.image.load(os.path.join(cpath, "resources/background.png")).convert(),
+                  pygame.image.load(os.path.join(cpath, "resources/nam.png")).convert(),
+                  pygame.image.load(os.path.join(cpath, "resources/background_pixel.png")).convert()]
+mawang_background_img = [pygame.image.load(os.path.join(cpath, "resources/background_mawang.png")).convert(),
+                         pygame.image.load(os.path.join(cpath, "resources/ma.png")).convert(),
+                         pygame.image.load(os.path.join(cpath, "resources/background_pixel_mawang.png")).convert()]
+'''
 background_setting = 0
 high_score = 0
-pipe_base_speed = 5
-pipe_increase_speed = 5
+pipe_base_speed = 7.5
+pipe_increase_speed = 7.5
+level = 0
 
 main_scene = True
 is_setting_mode = False
 stop_in_ai_mode = False
+mute = False
 mySound = pygame.mixer.Sound("resources/juuuuuump.wav")
 mySound2 = pygame.mixer.Sound("resources/121Nootnoot2.wav")
 
@@ -106,7 +134,7 @@ main_scene_bgm = pygame.mixer.Sound('resources/nocturne.wav')
 bgm = pygame.mixer.Sound('resources/stage_bgm.wav')
 mawang_bgm = pygame.mixer.Sound("resources/mawang.wav")
 bgm.set_volume(1.0)
-main_scene_bgm.play(-1)   
+main_scene_bgm.play(-1)
 
 while 1:
     # FPS를 60으로 설정
@@ -125,6 +153,15 @@ while 1:
                     is_setting_mode = False
                 elif x_ >= 800 and x_ <= 850 and y_ >= 150 and y_ <= 200:
                     ai_mode = not ai_mode
+                elif x_ >= 800 and x_ <= 850 and y_ >= 500 and y_ <= 550:
+                    mute = not mute
+                    if mute:
+                        main_scene_bgm.stop()
+                    else:
+                        main_scene_bgm.play(-1)
+                elif x_ >= 750 and x_ <= 900 and y_ >= 225 and y_ <= 275:
+                    level += 1
+                    level %= 3
                 else:
                     background_setting += 1
                     background_setting %= 3
@@ -136,11 +173,13 @@ while 1:
                 elif x_ >= 640 - 150 and x_ <= 640 + 150 and y_ >= 400 and y_ <= 500:
                     main_scene = False
                     main_scene_bgm.stop()
-                    bgm.play()
+                    if not mute:
+                        bgm.play()
             else:
                 if not game_over and not ai_mode:
-                    gy = 10.5
-                    mySound.play()
+                    gy = 10
+                    if not mute:
+                        mySound.play()
 
         # 키가 눌렸다면
         if event.type == pygame.KEYDOWN:
@@ -149,20 +188,22 @@ while 1:
                 if main_scene and not is_setting_mode:
                     game_restart()
                     main_scene_bgm.stop()
-                    bgm.play()
+                    if not mute:
+                        bgm.play()
                     main_scene = False
                 elif not is_setting_mode:
                     if not game_over:
                         if ai_mode:
                             stop_in_ai_mode = True
                             continue
-                        gy = 10.5
-                        mySound.play()
+                        gy = 10
+                        if not mute:
+                            mySound.play()
                     else:
                         game_restart()
                         main_scene = True
-                        
-                        main_scene_bgm.play()
+                        if not mute:
+                            main_scene_bgm.play()
 
     if not main_scene:
         # 배경색을 흰색으로 채우기
@@ -177,17 +218,19 @@ while 1:
             if not first_changed:
                 first_changed = True
                 bgm.stop()
-                mawang_bgm.play()
+                if not mute:
+                    mawang_bgm.play()
 
         if ai.jump(dist(pipex[get_nearest_pipe()], x), dist(pipey[get_nearest_pipe()], y)) and not game_over and ai_mode:
             gy = 10.5
-            mySound.play()
+            if not mute:
+                mySound.play()
 
         if not game_over:
-            # 중력 설정
-            gy -= 0.5
             # y값을 중력값에 따라 떨어지게
             y -= gy
+            # 중력 설정
+            gy -= 0.75 * (level + 1) / 3 * 2
 
         # 플레이어 화면에 그리기
         player_color = (0, 0, 255)
@@ -209,7 +252,7 @@ while 1:
         for i in range(3):
             if not game_over:
                 # 배관 왼쪽으로 이동
-                pipex[i] -= pipe_base_speed + pipe_increase_speed * (score >= change_score)
+                pipex[i] -= (pipe_base_speed + pipe_increase_speed * (score >= change_score)) * (level + 1) / 3 * 2
 
             # 배관이 왼쪽 화면 밖으로 나갔다면 점수 + 1 하고 화면 오른쪽으로 보내기
             if pipex[i] <= 0 - pipew:
@@ -272,13 +315,15 @@ while 1:
             if first_game_over:
                 mawang_bgm.stop()
                 bgm.stop()
-                mySound2.play()
+                if not mute:
+                    mySound2.play()
                 first_game_over = False
                 if ai_mode:
                     ai.game_over(score)
                     if not stop_in_ai_mode:
                         game_restart()
-                        bgm.play()
+                        if not mute:
+                            bgm.play()
                     else:
                         stop_in_ai_mode = False
 
@@ -289,7 +334,15 @@ while 1:
         a_txt = font2.render('AI Mode', True, (0, 0, 0))
         a_pos = a_txt.get_rect(center=(1280/2, 175))
         screen.blit(a_txt, a_pos)
+        level_txt = font2.render('Level', True, (0, 0, 0))
+        level_pos = level_txt.get_rect(center=(1280/2, 250))
+        screen.blit(level_txt, level_pos)
+        mute_txt = font2.render('Mute', True, (0, 0, 0))
+        mute_pos = mute_txt.get_rect(center=(1280/2, 525))
+        screen.blit(mute_txt, mute_pos)
         screen.blit(checkbox[0 if not ai_mode else 1], (800,150))
+        screen.blit(checkbox[0 if not mute else 1], (800,500))
+        screen.blit(level_img[level], (800-50,225))
         screen.blit(back_img, (10, 10))
     else:
         screen.blit(background_img[background_setting], (0, 0))
