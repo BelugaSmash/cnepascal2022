@@ -93,6 +93,7 @@ mySound2 = pygame.mixer.Sound("resources/121Nootnoot2.wav")
 mySound3 = pygame.mixer.Sound("resources/e_mart.wav")
 
 mySound.set_volume(0.25)
+mySound2.set_volume(10.0)
 
 ai = [ai.AI(), ai.AI(), ai.AI()]
 
